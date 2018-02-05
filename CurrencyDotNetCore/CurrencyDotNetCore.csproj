@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <SignAssembly>false</SignAssembly>
+    <Version>0.0.1</Version>
+    <Authors>İren SALTALI</Authors>
+    <Company>İren SALTALI</Company>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/irensaltali/currency-dotnetcore</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>

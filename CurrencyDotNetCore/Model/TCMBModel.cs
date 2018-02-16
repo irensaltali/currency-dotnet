@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CurrencyDotNetCore.Model
 {
-    [SerializableAttribute()]
+    [Serializable()]
     [System.Xml.Serialization.XmlRoot("Tarih_Date", Namespace = "", IsNullable = false)]
     [System.Xml.Serialization.XmlType(AnonymousType = true)]
     public partial class TCMBModel
@@ -11,17 +11,17 @@ namespace CurrencyDotNetCore.Model
         [System.Xml.Serialization.XmlElement("Currency")]
         public List<TCMBModelCurrency> Currencies { get; set; }
 
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.Xml.Serialization.XmlAttribute()]
         public string Tarih { get; set; }
 
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.Xml.Serialization.XmlAttribute()]
         public string Date { get; set; }
 
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.Xml.Serialization.XmlAttribute()]
         public string Bulten_No { get; set; }
     }
 
-    [SerializableAttribute()]
+    [Serializable()]
     public partial class TCMBModelCurrency
     {
         public byte Unit { get; set; }
@@ -42,13 +42,13 @@ namespace CurrencyDotNetCore.Model
 
         public string CrossRateOther { get; set; }
         
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.Xml.Serialization.XmlAttribute()]
         public byte CrossOrder { get; set; }
         
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.Xml.Serialization.XmlAttribute()]
         public string Kod { get; set; }
         
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.Xml.Serialization.XmlAttribute()]
         public string CurrencyCode { get; set; }
     }
 }

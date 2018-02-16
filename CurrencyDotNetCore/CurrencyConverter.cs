@@ -38,13 +38,13 @@ namespace CurrencyDotNetCore
 
         public double GetRate(Currency From, Currency To)
         {
-            var fromCurrency = TCMBData.Currencies.Where(c => c.Kod == From.ToString()).FirstOrDefault();
-            var toCurrency = TCMBData.Currencies.Where(c => c.Kod == To.ToString()).FirstOrDefault();
+            var fromCurrency = TCMBData.Currencies.Where(c => c.Kod == From.InternationalCode).FirstOrDefault();
+            var toCurrency = TCMBData.Currencies.Where(c => c.Kod == To.InternationalCode).FirstOrDefault();
             double rate = 0;
 
-            if (From.ToString() == To.ToString())
+            if (From.InternationalCode == To.InternationalCode)
                 rate = 1;
-            else if (To.ToString() == "TRY")
+            else if (To.InternationalCode == "TRY")
             {
                 if (string.IsNullOrEmpty(fromCurrency.ForexSelling))
                     return -1;
@@ -54,7 +54,7 @@ namespace CurrencyDotNetCore
                 if (fromCurrency.ToString() == "JPY" || fromCurrency.ToString() == "IRR")
                     rate = rate / 100;
             }
-            else if (From.ToString() == "TRY")
+            else if (From.InternationalCode == "TRY")
             {
                 if (string.IsNullOrEmpty(toCurrency.ForexSelling))
                     return -1;
@@ -64,7 +64,7 @@ namespace CurrencyDotNetCore
                     rate = 1 / rate;
                 }
             }
-            else if (From.ToString() == "USD")
+            else if (From.InternationalCode == "USD")
             {
                 if (string.IsNullOrEmpty(toCurrency.CrossRateUSD) && string.IsNullOrEmpty(toCurrency.CrossRateOther))
                     return -1;
@@ -73,7 +73,7 @@ namespace CurrencyDotNetCore
                 else
                     rate = double.Parse(toCurrency.CrossRateUSD, CultureInfo.InvariantCulture);
             }
-            else if (To.ToString() == "USD")
+            else if (To.InternationalCode == "USD")
             {
                 if (string.IsNullOrEmpty(fromCurrency.CrossRateUSD))
                     return -1;

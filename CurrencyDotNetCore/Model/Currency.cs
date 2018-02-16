@@ -1,14 +1,109 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 
 namespace CurrencyDotNetCore.Model
 {
     public sealed class Currency
     {
 
-        private readonly string internationalCode;
-        private readonly Dictionary<string, string> NamesInEnglish;
-        private readonly Dictionary<string, string> NamesInTurkish;
+        private readonly string _internationalCode;
+        private readonly string _nameInEnglish;
+        private readonly string _nameInTurkish;
+        private readonly string _symbol;
+
+        public string InternationalCode { get { return _internationalCode; } }
+        public string NameInEnglish { get { return _nameInEnglish; } }
+        public string NameInTurkish { get { return _nameInTurkish; } }
+        public string Symbol { get { return _symbol; } }
+
+
+        private readonly Dictionary<string, string> NamesInEnglish = new Dictionary<string, string>
+            {
+                {"TRY","Turkish Lira"},
+                {"USD","US Dolar"},
+                {"AUD","Australian Dollar"},
+                {"DKK","Danish Krone"},
+                {"EUR","Euro"},
+                {"GBP","Pound Sterling"},
+                {"CHF","Swiss Franc"},
+                {"SEK","Swedish Krona"},
+                {"CAD","Canadian Dollar"},
+                {"KWD","Kuwaiti Dinar"},
+                {"NOK","Norwegian Krone"},
+                {"SAR","Saudi Riyal"},
+                {"JPY","Japanese Yen"},
+                {"BGN","Bulgarian Lev"},
+                {"RON","Romanian Leu"},
+                {"RUB","Russian Ruble"},
+                {"IRR","Iranian Rial"},
+                {"CNY","Chinese Yuan"},
+                {"PKR","Pakistan Rupee"}
+            };
+        private readonly Dictionary<string, string> NamesInTurkish = new Dictionary<string, string>
+            {
+                {"TRY","Türk Lirası"},
+                {"USD","Amerikan Doları"},
+                {"AUD","Avustralya Doları"},
+                {"DKK","Danimarka Kronu"},
+                {"EUR","Euro"},
+                {"GBP","İngiliz Siterlini"},
+                {"CHF","İsvişre Frangı"},
+                {"SEK","İsveç Kronu"},
+                {"CAD","Kanada Doları"},
+                {"KWD","Kuveyt Dinarı"},
+                {"NOK","Norveç Kronu"},
+                {"SAR","Suudi Arabistan Riyali"},
+                {"JPY","Japon Yeni"},
+                {"BGN","Bulgar Levası"},
+                {"RON","Rumen Leyi"},
+                {"RUB","Rus Rublesi"},
+                {"IRR","Iran Riyali"},
+                {"CNY","Çin Yuanı"},
+                {"PKR","Pakistan Rupisi"}
+            };
+        private readonly Dictionary<string, string> MatchingCulture = new Dictionary<string, string>
+            {
+                {"TRY","tr-TR"},
+                {"USD","en-US"},
+                {"AUD","en-AU"},
+                {"DKK","da-DK"},
+                {"EUR","en-150"},
+                {"GBP","en"},
+                {"CHF","de-CH"},
+                {"SEK","sv-SE"},
+                {"CAD","en-CA"},
+                {"KWD","ar-KW"},
+                {"NOK","nb-NO"},
+                {"SAR","ar-SA"},
+                {"JPY","ja-JP"},
+                {"BGN","bg-BG"},
+                {"RON","ro-RO"},
+                {"RUB","ru-RU"},
+                {"IRR","fa-IR"},
+                {"CNY","zh-CN"},
+                {"PKR","en-PK"}
+            };
+        private readonly Dictionary<string, string> CurrencySymbol = new Dictionary<string, string>
+            {
+                {"TRY","tr-TR"},
+                {"USD","$"},
+                {"AUD","$"},
+                {"DKK","kr."},
+                {"EUR","€"},
+                {"GBP","£"},
+                {"CHF","fr."},
+                {"SEK","kr"},
+                {"CAD","$"},
+                {"KWD","د.ك.‏"},
+                {"NOK","kr"},
+                {"SAR","ر.س."},
+                {"JPY","¥"},
+                {"BGN","лв."},
+                {"RON","lei"},
+                {"RUB","р."},
+                {"IRR","ريال"},
+                {"CNY","¥"},
+                {"PKR","Rs"}
+            };
 
         public static readonly Currency TRY = new Currency("TRY");
         public static readonly Currency USD = new Currency("USD");
@@ -32,73 +127,12 @@ namespace CurrencyDotNetCore.Model
 
         private Currency(string value)
         {
-            this.internationalCode = value;
-            this.NamesInEnglish = new Dictionary<string, string>
-            {
-                {"TRY","Turkish Lira"},
-                {"USD","US Dolar"},
-                {"AUD","Australian Dollar"},
-                {"DKK","Danish Krone"},
-                {"EUR","Euro"},
-                {"GBP","Pound Sterling"},
-                {"CHF","Swiss Franc"},
-                {"SEK","Swedish Krona"},
-                {"CAD","Canadian Dollar"},
-                {"KWD","Kuwaiti Dinar"},
-                {"NOK","Norwegian Krone"},
-                {"SAR","Saudi Riyal"},
-                {"JPY","Japanese Yen"},
-                {"BGN","Bulgarian Lev"},
-                {"RON","Romanian Leu"},
-                {"RUB","Russian Ruble"},
-                {"IRR","Iranian Rial"},
-                {"CNY","Chinese Yuan"},
-                {"PKR","Pakistan Rupee"}
-            };
-            this.NamesInTurkish = new Dictionary<string, string>
-            {
-                {"TRY","Türk Lirası"},
-                {"USD","Amerikan Doları"},
-                {"AUD","Avustralya Dolaru"},
-                {"DKK","Danimarka Kronu"},
-                {"EUR","Euro"},
-                {"GBP","İngiliz Siterlini"},
-                {"CHF","İsvişre Frangı"},
-                {"SEK","İsveç Kronu"},
-                {"CAD","Kanada Doları"},
-                {"KWD","Kuveyt Dinarı"},
-                {"NOK","Norveç Kronu"},
-                {"SAR","Suudi Arabistan Riyali"},
-                {"JPY","Japon Yeni"},
-                {"BGN","Bulgar Levası"},
-                {"RON","Rumen Leyi"},
-                {"RUB","Rus Rublesi"},
-                {"IRR","Iran Riyali"},
-                {"CNY","Çin Yuanı"},
-                {"PKR","Pakistan Rupisi"}
-            };
-        }
-        
-
-        public override string ToString()
-        {
-            return internationalCode;
+            _internationalCode = value;
+            NamesInEnglish.TryGetValue(value, out _nameInEnglish);
+            NamesInTurkish.TryGetValue(value, out _nameInTurkish);
+            CurrencySymbol.TryGetValue(value, out _symbol);
         }
 
-        public string GetName()
-        {
-            string currentLang = Thread.CurrentThread.CurrentCulture.Name;
-            string name;
 
-            if (currentLang == "tr-TR")
-                NamesInTurkish.TryGetValue(internationalCode, out name);
-            else if (currentLang == "en-US")
-                NamesInEnglish.TryGetValue(internationalCode, out name);
-            else
-                NamesInEnglish.TryGetValue(internationalCode, out name);
-
-            return name;
-        }
-        
     }
 }

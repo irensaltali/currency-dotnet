@@ -23,7 +23,7 @@ namespace CurrencyDotNetCore.Model
                 {"AUD","Australian Dollar"},
                 {"DKK","Danish Krone"},
                 {"EUR","Euro"},
-                {"GBP","Pound Sterling"},
+                {"GBP","Pound"},
                 {"CHF","Swiss Franc"},
                 {"SEK","Swedish Krona"},
                 {"CAD","Canadian Dollar"},
@@ -84,7 +84,7 @@ namespace CurrencyDotNetCore.Model
             };
         private readonly Dictionary<string, string> CurrencySymbol = new Dictionary<string, string>
             {
-                {"TRY","tr-TR"},
+                {"TRY","₺"},
                 {"USD","$"},
                 {"AUD","$"},
                 {"DKK","kr."},
@@ -125,12 +125,17 @@ namespace CurrencyDotNetCore.Model
         public static readonly Currency CNY = new Currency("CNY");
         public static readonly Currency PKR = new Currency("PKR");
 
-        private Currency(string value)
+        public Currency(string value)
         {
             _internationalCode = value;
             NamesInEnglish.TryGetValue(value, out _nameInEnglish);
             NamesInTurkish.TryGetValue(value, out _nameInTurkish);
             CurrencySymbol.TryGetValue(value, out _symbol);
+        }
+
+        public override string ToString()
+        {
+            return _internationalCode;
         }
 
 

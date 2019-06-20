@@ -10,7 +10,7 @@ New data soruces will be added.
 .NET Core 2.0
 
 
-## Installation
+# Installation
 The library is distributed on `NuGet`. To install the latest version, run the following command in the Package Manager Console: 
 ```sh
 PM> Install-Package Irensaltali.Currency -Version 0.1.0-beta

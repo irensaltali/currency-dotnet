@@ -1,4 +1,4 @@
-![Nuget](https://img.shields.io/nuget/v/Irensaltali.Currency.svg)
+[![Nuget](https://img.shields.io/nuget/v/Irensaltali.Currency.svg)](https://www.nuget.org/packages/Irensaltali.Currency/0.1.0-beta)
 
 # currency-dotnetcore
 .NET Core Currency API. Exchange rate data is taken from the TCMB (Türkiye Cumhuriyeti Merkez Bankası - Central Bank of The Republic Of Turkey). 

@@ -1,4 +1,4 @@
-[![Nuget](https://img.shields.io/nuget/v/Irensaltali.Currency.svg)](https://www.nuget.org/packages/Irensaltali.Currency/0.1.0-beta)
+[![Nuget](https://img.shields.io/nuget/v/Irensaltali.Currency.svg)](https://www.nuget.org/packages/Irensaltali.Currency)
 
 # currency-dotnet
 .NET Core Currency API. Exchange rate data is taken from the TCMB (Türkiye Cumhuriyeti Merkez Bankası - Central Bank of The Republic Of Turkey). 
@@ -13,7 +13,7 @@ New data soruces will be added.
 # Installation
 The library is distributed on `NuGet`. To install the latest version, run the following command in the Package Manager Console: 
 ```sh
-PM> Install-Package Irensaltali.Currency -Version 0.1.0-beta
+PM> Install-Package Irensaltali.Currency
 ```
 
 # Usage

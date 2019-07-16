@@ -92,7 +92,7 @@ namespace CurrencyDotNetCore
                 else if (From.InternationalCode == "USD")
                 {
                     if (toCurrency.CrossRateUSD > 0)
-                        return 1 / (toCurrency.CrossRateUSD / toCurrency.Unit;
+                        return toCurrency.CrossRateUSD / toCurrency.Unit;
                     else if (toCurrency.CrossRateOther > 0)
                         return 1 / (toCurrency.CrossRateOther / toCurrency.Unit);
                     else

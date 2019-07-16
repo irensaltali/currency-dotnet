@@ -83,9 +83,9 @@ namespace CurrencyDotNetCore
                 else if (From.InternationalCode == "TRY")
                 {
                     if (toCurrency.BanknoteSelling > 0)
-                        return toCurrency.BanknoteSelling / toCurrency.Unit;
+                        return 1 / (toCurrency.BanknoteSelling / toCurrency.Unit);
                     else if (toCurrency.ForexSelling > 0)
-                        return toCurrency.ForexSelling / toCurrency.Unit;
+                        return 1 / (toCurrency.ForexSelling / toCurrency.Unit);
                     else
                         return -1;
                 }

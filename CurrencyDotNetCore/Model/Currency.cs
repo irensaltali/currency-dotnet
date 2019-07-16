@@ -16,7 +16,7 @@ namespace CurrencyDotNetCore.Model
         public string Symbol { get { return _symbol; } }
 
 
-        private readonly Dictionary<string, string> NamesInEnglish = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> NamesInEnglish = new Dictionary<string, string>
             {
                 {"TRY","Turkish Lira"},
                 {"USD","US Dolar"},
@@ -38,7 +38,7 @@ namespace CurrencyDotNetCore.Model
                 {"CNY","Chinese Yuan"},
                 {"PKR","Pakistan Rupee"}
             };
-        private readonly Dictionary<string, string> NamesInTurkish = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> NamesInTurkish = new Dictionary<string, string>
             {
                 {"TRY","Türk Lirası"},
                 {"USD","Amerikan Doları"},
@@ -60,7 +60,7 @@ namespace CurrencyDotNetCore.Model
                 {"CNY","Çin Yuanı"},
                 {"PKR","Pakistan Rupisi"}
             };
-        private readonly Dictionary<string, string> MatchingCulture = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> MatchingCulture = new Dictionary<string, string>
             {
                 {"TRY","tr-TR"},
                 {"USD","en-US"},
@@ -82,7 +82,7 @@ namespace CurrencyDotNetCore.Model
                 {"CNY","zh-CN"},
                 {"PKR","en-PK"}
             };
-        private readonly Dictionary<string, string> CurrencySymbol = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> CurrencySymbol = new Dictionary<string, string>
             {
                 {"TRY","₺"},
                 {"USD","$"},

@@ -10,12 +10,12 @@ namespace CurrencyDotNetCore
 {
     public class CurrencyConverter
     {
-        
+
         private readonly decimal roundStep = 0M;
         readonly ObjectCache cache = MemoryCache.Default;
         readonly CacheItemPolicy policy = new CacheItemPolicy();
 
-        public CurrencyConverter(decimal roundStep = 0M, int secondsToCacheExpire=3600)
+        public CurrencyConverter(decimal roundStep = 0M, int secondsToCacheExpire = 3600)
         {
             if (roundStep > 0)
                 this.roundStep = roundStep;
@@ -62,57 +62,69 @@ namespace CurrencyDotNetCore
 
         public decimal GetRate(Currency From, Currency To)
         {
-            var fromCurrency = TCMBData.Currencies.Where(c => c.Kod == From.InternationalCode).FirstOrDefault();
-            var toCurrency = TCMBData.Currencies.Where(c => c.Kod == To.InternationalCode).FirstOrDefault();
-            decimal rate = 0;
-
-            if (From.InternationalCode == To.InternationalCode)
-                rate = 1;
-            else if (To.InternationalCode == "TRY")
+            try
             {
-                if (string.IsNullOrEmpty(fromCurrency.ForexSelling))
-                    return -1;
-                else
-                    rate = decimal.Parse(fromCurrency.ForexSelling, CultureInfo.InvariantCulture);
+                var fromCurrency = TCMBData.Currencies.Where(c => c.Kod == From.InternationalCode).FirstOrDefault();
+                var toCurrency = TCMBData.Currencies.Where(c => c.Kod == To.InternationalCode).FirstOrDefault();
 
-                if (fromCurrency.ToString() == "JPY" || fromCurrency.ToString() == "IRR")
-                    rate = rate / 100;
-            }
-            else if (From.InternationalCode == "TRY")
-            {
-                if (string.IsNullOrEmpty(toCurrency.ForexSelling))
-                    return -1;
+
+                if (From.InternationalCode == To.InternationalCode)
+                    return 1;
+                else if (To.InternationalCode == "TRY")
+                {
+                    if (fromCurrency.BanknoteSelling > 0)
+                        return fromCurrency.BanknoteSelling / fromCurrency.Unit;
+                    else if (fromCurrency.ForexSelling > 0)
+                        return fromCurrency.ForexSelling / fromCurrency.Unit;
+                    else
+                        return -1;
+
+                }
+                else if (From.InternationalCode == "TRY")
+                {
+                    if (toCurrency.BanknoteSelling > 0)
+                        return toCurrency.BanknoteSelling / toCurrency.Unit;
+                    else if (toCurrency.ForexSelling > 0)
+                        return toCurrency.ForexSelling / toCurrency.Unit;
+                    else
+                        return -1;
+                }
+                else if (From.InternationalCode == "USD")
+                {
+                    if (toCurrency.CrossRateUSD > 0)
+                        return 1 / (toCurrency.CrossRateUSD / toCurrency.Unit);
+                    else if (toCurrency.CrossRateOther > 0)
+                        return toCurrency.CrossRateOther / toCurrency.Unit;
+                    else
+                        return -1;
+                }
+                else if (To.InternationalCode == "USD")
+                {
+                    if (fromCurrency.CrossRateUSD > 0)
+                        return 1 / (fromCurrency.CrossRateUSD / fromCurrency.Unit);
+                    else if (fromCurrency.CrossRateOther > 0)
+                        return fromCurrency.CrossRateOther / fromCurrency.Unit;
+                    else
+                        return -1;
+                }
                 else
                 {
-                    rate = decimal.Parse(toCurrency.ForexSelling, CultureInfo.InvariantCulture);
-                    rate = 1 / rate;
+                    if (fromCurrency.BanknoteSelling > 0 && toCurrency.BanknoteSelling > 0)
+                        return (fromCurrency.BanknoteSelling / fromCurrency.Unit) / (toCurrency.BanknoteSelling / toCurrency.Unit);
+                    else if (fromCurrency.BanknoteSelling > 0 && fromCurrency.ForexSelling > 0)
+                        return (fromCurrency.BanknoteSelling / fromCurrency.Unit) / (toCurrency.ForexSelling / toCurrency.Unit);
+                    else if (fromCurrency.ForexSelling > 0 && fromCurrency.BanknoteSelling > 0)
+                        return (fromCurrency.ForexSelling / fromCurrency.Unit) / (toCurrency.BanknoteSelling / toCurrency.Unit);
+                    else if (fromCurrency.ForexSelling > 0 && fromCurrency.ForexSelling > 0)
+                        return (fromCurrency.ForexSelling / fromCurrency.Unit) / (toCurrency.ForexSelling / toCurrency.Unit);
+                    else
+                        return -1;
                 }
             }
-            else if (From.InternationalCode == "USD")
+            catch (Exception e)
             {
-                if (string.IsNullOrEmpty(toCurrency.CrossRateUSD) && string.IsNullOrEmpty(toCurrency.CrossRateOther))
-                    return -1;
-                else if (string.IsNullOrEmpty(toCurrency.CrossRateUSD))
-                    rate = 1 / decimal.Parse(toCurrency.CrossRateOther, CultureInfo.InvariantCulture);
-                else
-                    rate = decimal.Parse(toCurrency.CrossRateUSD, CultureInfo.InvariantCulture);
+                return -1;
             }
-            else if (To.InternationalCode == "USD")
-            {
-                if (string.IsNullOrEmpty(fromCurrency.CrossRateUSD))
-                    return -1;
-                else
-                {
-                    rate = decimal.Parse(fromCurrency.CrossRateUSD, CultureInfo.InvariantCulture);
-                    rate = 1 / rate;
-                }
-            }
-            else
-            {
-                rate = decimal.Parse(fromCurrency.ForexSelling, CultureInfo.InvariantCulture) / decimal.Parse(toCurrency.ForexSelling, CultureInfo.InvariantCulture);
-            }
-
-            return rate;
         }
 
         public decimal Convert(Currency From, decimal FromAmount, Currency To)

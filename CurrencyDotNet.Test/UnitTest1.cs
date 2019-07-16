@@ -1,28 +1,29 @@
-using NUnit.Framework;
+using CurrencyDotNetCore;
+using CurrencyDotNetCore.Model;
+using Xunit;
 
-namespace CurrencyDotNetCore.Samples
+namespace CurrencyDotNet.Test
 {
-    public class Sample
+    public class UnitTest1
     {
         protected CurrencyConverter converter;
         protected decimal roundStep = 0.05M;
-
-        [SetUp]
-        public void Initialize()
+        public UnitTest1()
         {
             converter = new CurrencyConverter(roundStep);
         }
 
-        [Test]
+        [Fact]
         public void ConversionTest()
         {
             var response1 = converter.Convert(Currency.TRY, 252M, Currency.EUR);
             var response2 = converter.Convert(Currency.TRY, 232M, Currency.GBP);
             var response3 = converter.Convert(Currency.EUR, 31M, Currency.USD);
 
-            Assert.IsTrue(response1 % roundStep == 0);
-            Assert.IsTrue(response2 % roundStep == 0);
-            Assert.IsTrue(response3 % roundStep == 0);
+            Assert.True(response1 % roundStep == 0);
+            Assert.True(response2 % roundStep == 0);
+            Assert.True(response3 % roundStep == 0);
+
         }
     }
 }

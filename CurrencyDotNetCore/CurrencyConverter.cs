@@ -92,18 +92,18 @@ namespace CurrencyDotNetCore
                 else if (From.InternationalCode == "USD")
                 {
                     if (toCurrency.CrossRateUSD > 0)
-                        return 1 / (toCurrency.CrossRateUSD / toCurrency.Unit);
+                        return 1 / (toCurrency.CrossRateUSD / toCurrency.Unit;
                     else if (toCurrency.CrossRateOther > 0)
-                        return toCurrency.CrossRateOther / toCurrency.Unit;
+                        return 1 / (toCurrency.CrossRateOther / toCurrency.Unit);
                     else
                         return -1;
                 }
                 else if (To.InternationalCode == "USD")
                 {
                     if (fromCurrency.CrossRateUSD > 0)
-                        return 1 / (fromCurrency.CrossRateUSD / fromCurrency.Unit);
+                        return fromCurrency.CrossRateUSD / fromCurrency.Unit;
                     else if (fromCurrency.CrossRateOther > 0)
-                        return fromCurrency.CrossRateOther / fromCurrency.Unit;
+                        return 1 / (fromCurrency.CrossRateOther / fromCurrency.Unit);
                     else
                         return -1;
                 }

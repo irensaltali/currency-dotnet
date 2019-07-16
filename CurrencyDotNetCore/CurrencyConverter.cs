@@ -3,20 +3,24 @@ using System.Globalization;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Runtime.Caching;
+using System;
 
 namespace CurrencyDotNetCore
 {
     public class CurrencyConverter
     {
-        private TCMBModel TCMBData;
+        
         private readonly decimal roundStep = 0M;
+        readonly ObjectCache cache = MemoryCache.Default;
+        readonly CacheItemPolicy policy = new CacheItemPolicy();
 
-        public CurrencyConverter(decimal roundStep = 0M)
+        public CurrencyConverter(decimal roundStep = 0M, int secondsToCacheExpire=3600)
         {
-            GetTCMBData();
-
             if (roundStep > 0)
                 this.roundStep = roundStep;
+
+            policy.AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(secondsToCacheExpire);
         }
 
         //public CurrencyConverter(string DataSource)
@@ -27,13 +31,31 @@ namespace CurrencyDotNetCore
         //    this.DataSourceName = DataSource;
         //}
 
-        private void GetTCMBData()
+        private TCMBModel TCMBData
+        {
+            get
+            {
+                if (cache.Get("TCMBData") == null)
+                {
+                    return GetTCMBData();
+                }
+                else
+                {
+                    return (TCMBModel)cache.Get("TCMBData");
+                }
+            }
+        }
+
+        private TCMBModel GetTCMBData()
         {
 
             XmlSerializer serializer = new XmlSerializer(typeof(TCMBModel));
             XmlTextReader reader = new XmlTextReader("http://www.tcmb.gov.tr/kurlar/today.xml");
+            var TCMBData = (TCMBModel)serializer.Deserialize(reader);
 
-            TCMBData = (TCMBModel)serializer.Deserialize(reader);
+            cache.Set("TCMBData", TCMBData, policy);
+
+            return TCMBData;
 
         }
 

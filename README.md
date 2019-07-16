@@ -5,9 +5,9 @@
 
 New data soruces will be added.
 
-# Requirements
+# Frameworks
 
-.NET Core 2.0
+.NET 4.7.2, .NET Core 2.0, .NET Core 2.1, .NET Core 2.2 
 
 
 # Installation

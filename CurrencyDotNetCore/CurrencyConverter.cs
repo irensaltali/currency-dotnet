@@ -101,9 +101,9 @@ namespace CurrencyDotNetCore
                 else if (To.InternationalCode == "USD")
                 {
                     if (fromCurrency.CrossRateUSD > 0)
-                        return fromCurrency.CrossRateUSD / fromCurrency.Unit;
+                        return 1 / (fromCurrency.CrossRateUSD / fromCurrency.Unit);
                     else if (fromCurrency.CrossRateOther > 0)
-                        return 1 / (fromCurrency.CrossRateOther / fromCurrency.Unit);
+                        return fromCurrency.CrossRateOther / fromCurrency.Unit;
                     else
                         return -1;
                 }

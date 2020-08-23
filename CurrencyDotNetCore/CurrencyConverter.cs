@@ -10,7 +10,6 @@ namespace CurrencyDotNetCore
 {
     public class CurrencyConverter
     {
-
         private readonly decimal roundStep = 0M;
         readonly ObjectCache cache = MemoryCache.Default;
         readonly CacheItemPolicy policy = new CacheItemPolicy();
@@ -145,7 +144,6 @@ namespace CurrencyDotNetCore
                 return baseValue + roundStep;
             else
                 return baseValue;
-
         }
     }
 }

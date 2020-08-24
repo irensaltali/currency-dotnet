@@ -5,12 +5,17 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Runtime.Caching;
 using System;
+using CurrencyDotNet.Model;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace CurrencyDotNetCore
 {
     public class CurrencyConverter
     {
         private readonly decimal roundStep = 0M;
+        private readonly DataSource currentDataSource = DataSource.TCMB;
         readonly ObjectCache cache = MemoryCache.Default;
         readonly CacheItemPolicy policy = new CacheItemPolicy();
 
@@ -22,14 +27,19 @@ namespace CurrencyDotNetCore
             policy.AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(secondsToCacheExpire);
         }
 
-        //public CurrencyConverter(string DataSource)
-        //{
-        //    DataCollector DataCollector = new DataCollector();
-        //    TCMBData = DataCollector.GetTCMBData();
 
-        //    this.DataSourceName = DataSource;
-        //}
+        public CurrencyConverter(DataSource dataSource, decimal roundStep = 0M, int secondsToCacheExpire = 3600)
+        {
+            if (roundStep > 0)
+                this.roundStep = roundStep;
 
+            currentDataSource = dataSource;
+
+            policy.AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(secondsToCacheExpire);
+        }
+
+
+        #region TCMB
         private TCMBModel TCMBData
         {
             get
@@ -47,7 +57,6 @@ namespace CurrencyDotNetCore
 
         private TCMBModel GetTCMBData()
         {
-
             XmlSerializer serializer = new XmlSerializer(typeof(TCMBModel));
             XmlTextReader reader = new XmlTextReader("http://www.tcmb.gov.tr/kurlar/today.xml");
             var TCMBData = (TCMBModel)serializer.Deserialize(reader);
@@ -55,11 +64,9 @@ namespace CurrencyDotNetCore
             cache.Set("TCMBData", TCMBData, policy);
 
             return TCMBData;
-
         }
 
-
-        public decimal GetRate(Currency From, Currency To)
+        private decimal GetRateForTCMB(Currency From, Currency To)
         {
             try
             {
@@ -125,6 +132,102 @@ namespace CurrencyDotNetCore
                 return -1;
             }
         }
+        #endregion
+
+        #region ECB
+        private ECBModel ECBData
+        {
+            get
+            {
+                if (cache.Get("ECBData") == null)
+                {
+                    return GetECBDataAsync().GetAwaiter().GetResult();
+                }
+                else
+                {
+                    return (ECBModel)cache.Get("ECBData");
+                }
+            }
+        }
+
+        private async Task<ECBModel> GetECBDataAsync()
+        {
+            string file = null;
+            using (var client = new HttpClient())
+            {
+                using (var result = await client.GetAsync("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"))
+                {
+                    if (result.IsSuccessStatusCode)
+                    {
+                        file = await result.Content.ReadAsStringAsync();
+                    }
+                }
+            }
+
+            file = file.Replace("gesmes:", string.Empty);
+            file = file.Replace("<Cube>\n", string.Empty);
+            int Place = file.LastIndexOf("</Cube>\n");
+            file = file.Remove(Place, ("</Cube>\n").Length).Insert(Place, string.Empty);
+            file = file.Replace(" xmlns:gesmes=\"http://www.gesmes.org/xml/2002-08-01\" xmlns=\"http://www.ecb.int/vocabulary/2002-08-01/eurofxref\"", string.Empty);
+
+            XmlSerializer serializer = new XmlSerializer(typeof(ECBModel));
+            StringReader reader = new StringReader(file);
+            var ECBData = (ECBModel)serializer.Deserialize(reader);
+
+            cache.Set("ECBData", ECBData, policy);
+
+            return ECBData;
+        }
+
+        private decimal GetRateForECB(Currency From, Currency To)
+        {
+            var ec = ECBData;
+            try
+            {
+                var fromCurrency = ECBData.Cube.CubeWithCurrencies.Where(c => c.Currency == From.InternationalCode).FirstOrDefault();
+                var toCurrency = ECBData.Cube.CubeWithCurrencies.Where(c => c.Currency == To.InternationalCode).FirstOrDefault();
+
+                if (From == To)
+                    return 1;
+                else if (To == Currency.EUR)
+                {
+                    return 1 / fromCurrency.Rate;
+
+
+                }
+                else if (From == Currency.EUR)
+                {
+                    return fromCurrency.Rate;
+
+                }
+                else
+                {
+                    return toCurrency.Rate / fromCurrency.Rate;
+                }
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+        #endregion
+
+        public decimal GetRate(Currency From, Currency To)
+        {
+            if (currentDataSource == DataSource.TCMB)
+            {
+                return GetRateForTCMB(From, To);
+            }
+            else if (currentDataSource == DataSource.ECB)
+            {
+                return GetRateForECB(From, To);
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
 
         public decimal Convert(Currency From, decimal FromAmount, Currency To)
         {

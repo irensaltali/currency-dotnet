@@ -4,11 +4,11 @@ using Xunit;
 
 namespace CurrencyDotNet.Test
 {
-    public class UnitTest1
+    public class TCMBTests
     {
         protected CurrencyConverter converter;
         protected decimal roundStep = 0.05M;
-        public UnitTest1()
+        public TCMBTests()
         {
             converter = new CurrencyConverter(roundStep);
         }

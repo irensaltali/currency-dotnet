@@ -9,7 +9,7 @@ New data soruces will be added.
 
 # Frameworks
 
-.NET 4.7.2, .NET Core 2.0, .NET Core 2.1, .NET Core 2.2 
+.NET 4.7.2, .NET Core 2.1, .NET 5
 
 
 # Installation

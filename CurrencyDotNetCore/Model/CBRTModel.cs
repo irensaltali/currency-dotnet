@@ -8,10 +8,10 @@ namespace CurrencyDotNetCore.Model
     [Serializable()]
     [XmlRoot("Tarih_Date", Namespace = "", IsNullable = false)]
     [XmlType(AnonymousType = true)]
-    public partial class TCMBModel
+    public partial class CBRTModel
     {
         [XmlElement("Currency")]
-        public List<TCMBModelCurrency> Currencies { get; set; }
+        public List<CBRTModelCurrency> Currencies { get; set; }
 
         [XmlAttribute()]
         public string Tarih { get; set; }
@@ -24,7 +24,7 @@ namespace CurrencyDotNetCore.Model
     }
 
     [Serializable()]
-    public partial class TCMBModelCurrency
+    public partial class CBRTModelCurrency
     {
         public int Unit { get; set; }
 

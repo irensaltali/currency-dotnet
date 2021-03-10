@@ -30,7 +30,7 @@ namespace CurrencyDotNetCore
         //    this.DataSourceName = DataSource;
         //}
 
-        private TCMBModel TCMBData
+        private CBRTModel CBRTData
         {
             get
             {
@@ -40,17 +40,17 @@ namespace CurrencyDotNetCore
                 }
                 else
                 {
-                    return (TCMBModel)cache.Get("TCMBData");
+                    return (CBRTModel)cache.Get("TCMBData");
                 }
             }
         }
 
-        private TCMBModel GetTCMBData()
+        private CBRTModel GetTCMBData()
         {
 
-            XmlSerializer serializer = new XmlSerializer(typeof(TCMBModel));
+            XmlSerializer serializer = new XmlSerializer(typeof(CBRTModel));
             XmlTextReader reader = new XmlTextReader("http://www.tcmb.gov.tr/kurlar/today.xml");
-            var TCMBData = (TCMBModel)serializer.Deserialize(reader);
+            var TCMBData = (CBRTModel)serializer.Deserialize(reader);
 
             cache.Set("TCMBData", TCMBData, policy);
 
@@ -63,8 +63,8 @@ namespace CurrencyDotNetCore
         {
             try
             {
-                var fromCurrency = TCMBData.Currencies.Where(c => c.Kod == From.InternationalCode).FirstOrDefault();
-                var toCurrency = TCMBData.Currencies.Where(c => c.Kod == To.InternationalCode).FirstOrDefault();
+                var fromCurrency = CBRTData.Currencies.Where(c => c.Kod == From.InternationalCode).FirstOrDefault();
+                var toCurrency = CBRTData.Currencies.Where(c => c.Kod == To.InternationalCode).FirstOrDefault();
 
 
                 if (From.InternationalCode == To.InternationalCode)

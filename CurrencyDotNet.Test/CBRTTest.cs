@@ -1,5 +1,4 @@
-using CurrencyDotNetCore;
-using CurrencyDotNetCore.Model;
+using CurrencyDotNet.Models;
 using Xunit;
 
 namespace CurrencyDotNet.Test
@@ -10,7 +9,7 @@ namespace CurrencyDotNet.Test
         protected decimal roundStep = 0.05M;
         public CBRTTest()
         {
-            converter = new CurrencyConverter(roundStep);
+            converter = new CurrencyConverter(DataSource.CBRT, roundStep);
         }
 
         [Fact]

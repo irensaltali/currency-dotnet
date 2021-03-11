@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyDotNet", "CurrencyDotNetCore\CurrencyDotNet.csproj", "{4E22BD38-8DE1-444D-90F8-3C463FB37BB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyDotNet", "CurrencyDotNet\CurrencyDotNet.csproj", "{4E22BD38-8DE1-444D-90F8-3C463FB37BB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyDotNet.Test", "CurrencyDotNet.Test\CurrencyDotNet.Test.csproj", "{FA0E809D-B610-4694-B80C-DA1A91BF958A}"
 EndProject

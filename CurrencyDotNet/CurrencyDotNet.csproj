@@ -11,7 +11,7 @@
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/irensaltali/currency-dotnet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/irensaltali/currency-dotnet</RepositoryUrl>
-    <Description>.NET Core Currency API. Exchange rate data is taken from the TCMB (Türkiye Cumhuriyeti Merkez Bankası - Central Bank of The Republic Of Turkey).</Description>
+    <Description>.NET Core Currency API. Exchange rate data is taken from the CBRT (Türkiye Cumhuriyeti Merkez Bankası - Central Bank of The Republic Of Turkey).</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en-US</NeutralLanguage>

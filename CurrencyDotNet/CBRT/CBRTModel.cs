@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Xml.Serialization;
 
-namespace CurrencyDotNetCore.Model
+namespace CurrencyDotNet.CBRT
 {
     [Serializable()]
     [XmlRoot("Tarih_Date", Namespace = "", IsNullable = false)]

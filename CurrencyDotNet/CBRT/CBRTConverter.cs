@@ -1,20 +1,19 @@
-﻿using CurrencyDotNetCore.Model;
-using System.Globalization;
+﻿using CurrencyDotNet.Models;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Runtime.Caching;
 using System;
 
-namespace CurrencyDotNetCore
+namespace CurrencyDotNet.CBRT
 {
-    public class CurrencyConverter
+    public class CBRTConverter : IConverter
     {
         private readonly decimal roundStep = 0M;
         readonly ObjectCache cache = MemoryCache.Default;
         readonly CacheItemPolicy policy = new CacheItemPolicy();
 
-        public CurrencyConverter(decimal roundStep = 0M, int secondsToCacheExpire = 3600)
+        public CBRTConverter(decimal roundStep = 0M, int secondsToCacheExpire = 3600)
         {
             if (roundStep > 0)
                 this.roundStep = roundStep;
@@ -22,39 +21,31 @@ namespace CurrencyDotNetCore
             policy.AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(secondsToCacheExpire);
         }
 
-        //public CurrencyConverter(string DataSource)
-        //{
-        //    DataCollector DataCollector = new DataCollector();
-        //    TCMBData = DataCollector.GetTCMBData();
-
-        //    this.DataSourceName = DataSource;
-        //}
-
         private CBRTModel CBRTData
         {
             get
             {
-                if (cache.Get("TCMBData") == null)
+                if (cache.Get("CBRTData") == null)
                 {
-                    return GetTCMBData();
+                    return GetCBRTData();
                 }
                 else
                 {
-                    return (CBRTModel)cache.Get("TCMBData");
+                    return (CBRTModel)cache.Get("CBRTData");
                 }
             }
         }
 
-        private CBRTModel GetTCMBData()
+        private CBRTModel GetCBRTData()
         {
 
             XmlSerializer serializer = new XmlSerializer(typeof(CBRTModel));
             XmlTextReader reader = new XmlTextReader("http://www.tcmb.gov.tr/kurlar/today.xml");
-            var TCMBData = (CBRTModel)serializer.Deserialize(reader);
+            var CBRTData = (CBRTModel)serializer.Deserialize(reader);
 
-            cache.Set("TCMBData", TCMBData, policy);
+            cache.Set("CBRTData", CBRTData, policy);
 
-            return TCMBData;
+            return CBRTData;
 
         }
 

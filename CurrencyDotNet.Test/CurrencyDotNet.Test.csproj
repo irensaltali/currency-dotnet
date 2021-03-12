@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CurrencyDotNetCore\CurrencyDotNet.csproj" />
     <ProjectReference Include="..\CurrencyDotNet\CurrencyDotNet.csproj" />
   </ItemGroup>
 

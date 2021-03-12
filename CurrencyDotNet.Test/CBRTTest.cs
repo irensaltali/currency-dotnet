@@ -6,7 +6,7 @@ namespace CurrencyDotNet.Test
     public class CBRTTest
     {
         protected CurrencyConverter converter;
-        protected decimal roundStep = 0.05M;
+        protected double roundStep = 0.05;
         public CBRTTest()
         {
             converter = new CurrencyConverter(DataSource.CBRT, roundStep);
@@ -15,8 +15,8 @@ namespace CurrencyDotNet.Test
         [Fact]
         public void ConversionTestFromTRY()
         {
-            var response1 = converter.Convert(Currency.TRY, 252M, Currency.EUR);
-            var response2 = converter.Convert(Currency.TRY, 232M, Currency.GBP);
+            var response1 = converter.Convert(Currency.TRY, 252, Currency.EUR);
+            var response2 = converter.Convert(Currency.TRY, 232, Currency.GBP);
 
             Assert.True(response1 % roundStep == 0);
             Assert.True(response1 > 0);
@@ -28,7 +28,7 @@ namespace CurrencyDotNet.Test
         [Fact]
         public void CrossConversionTest()
         {
-            var response = converter.Convert(Currency.EUR, 31M, Currency.USD);
+            var response = converter.Convert(Currency.EUR, 31, Currency.USD);
 
             Assert.True(response % roundStep == 0);
             Assert.True(response > 0);

@@ -33,84 +33,84 @@ namespace CurrencyDotNet.CBRT
         public string CurrencyName { get; set; }
 
         [XmlIgnore]
-        public decimal ForexBuying
+        public double ForexBuying
         {
             get
             {
                 if (string.IsNullOrEmpty(_ForexBuying))
                     return 0;
                 else
-                    return decimal.Parse(_ForexBuying, CultureInfo.InvariantCulture);
+                    return double.Parse(_ForexBuying, CultureInfo.InvariantCulture);
             }
         }
         [XmlElement("ForexBuying")]
         public string _ForexBuying { get; set; }
 
         [XmlIgnore]
-        public decimal ForexSelling
+        public double ForexSelling
         {
             get
             {
                 if (string.IsNullOrEmpty(_ForexSelling))
                     return 0;
                 else
-                    return decimal.Parse(_ForexSelling, CultureInfo.InvariantCulture);
+                    return double.Parse(_ForexSelling, CultureInfo.InvariantCulture);
             }
         }
         [XmlElement("ForexSelling")]
         public string _ForexSelling { get; set; }
 
         [XmlIgnore]
-        public decimal BanknoteBuying
+        public double BanknoteBuying
         {
             get
             {
                 if (string.IsNullOrEmpty(_BanknoteBuying))
                     return 0;
                 else
-                    return decimal.Parse(_BanknoteBuying, CultureInfo.InvariantCulture);
+                    return double.Parse(_BanknoteBuying, CultureInfo.InvariantCulture);
             }
         }
         [XmlElement("BanknoteBuying")]
         public string _BanknoteBuying { get; set; }
 
         [XmlIgnore]
-        public decimal BanknoteSelling
+        public double BanknoteSelling
         {
             get
             {
                 if (string.IsNullOrEmpty(_BanknoteSelling))
                     return 0;
                 else
-                    return decimal.Parse(_BanknoteSelling, CultureInfo.InvariantCulture);
+                    return double.Parse(_BanknoteSelling, CultureInfo.InvariantCulture);
             }
         }
         [XmlElement("BanknoteSelling")]
         public string _BanknoteSelling { get; set; }
 
         [XmlIgnore]
-        public decimal CrossRateUSD
+        public double CrossRateUSD
         {
             get
             {
                 if (string.IsNullOrEmpty(_CrossRateUSD))
                     return 0;
                 else
-                    return decimal.Parse(_CrossRateUSD, CultureInfo.InvariantCulture);
+                    return double.Parse(_CrossRateUSD, CultureInfo.InvariantCulture);
             }
         }
         [XmlElement("CrossRateUSD")]
         public string _CrossRateUSD { get; set; }
 
         [XmlIgnore]
-        public decimal CrossRateOther
+        public double CrossRateOther
         {
             get
             {
                 if (string.IsNullOrEmpty(_CrossRateOther))
                     return 0;
                 else
-                    return decimal.Parse(_CrossRateOther, CultureInfo.InvariantCulture);
+                    return double.Parse(_CrossRateOther, CultureInfo.InvariantCulture);
             }
         }
         [XmlElement("CrossRateOther")]

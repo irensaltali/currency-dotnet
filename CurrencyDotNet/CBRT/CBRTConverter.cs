@@ -9,11 +9,11 @@ namespace CurrencyDotNet.CBRT
 {
     public class CBRTConverter : IConverter
     {
-        private readonly double roundStep;
+        private readonly decimal roundStep;
         readonly ObjectCache cache = MemoryCache.Default;
         readonly CacheItemPolicy policy = new CacheItemPolicy();
 
-        public CBRTConverter(double roundStep = 0, int secondsToCacheExpire = 3600)
+        public CBRTConverter(decimal roundStep = 0, int secondsToCacheExpire = 3600)
         {
             if (roundStep > 0)
                 this.roundStep = roundStep;
@@ -50,7 +50,7 @@ namespace CurrencyDotNet.CBRT
         }
 
 
-        public double GetRate(Currency From, Currency To)
+        public decimal GetRate(Currency From, Currency To)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace CurrencyDotNet.CBRT
             }
         }
 
-        public double Convert(Currency From, double FromAmount, Currency To)
+        public decimal Convert(Currency From, decimal FromAmount, Currency To)
         {
             var rate = GetRate(From, To);
             if (roundStep > 0)
@@ -126,7 +126,7 @@ namespace CurrencyDotNet.CBRT
                 return rate * FromAmount;
         }
 
-        private double Round(double d)
+        private decimal Round(decimal d)
         {
             var modRemainder = d % roundStep;
             var baseValue = d - modRemainder;

@@ -8,12 +8,12 @@ namespace CurrencyDotNet.Fixer
 {
     public class FixerConverter : IConverter
     {
-        private readonly double roundStep;
+        private readonly decimal roundStep;
         private readonly string APIKey;
         readonly ObjectCache cache = MemoryCache.Default;
         readonly CacheItemPolicy policy = new CacheItemPolicy();
 
-        public FixerConverter(string _APIKey, double roundStep = 0, int secondsToCacheExpire = 3600)
+        public FixerConverter(string _APIKey, decimal roundStep = 0, int secondsToCacheExpire = 3600)
         {
             if (roundStep > 0)
                 this.roundStep = roundStep;
@@ -42,19 +42,22 @@ namespace CurrencyDotNet.Fixer
             var json = new WebClient().DownloadString("http://data.fixer.io/api/latest?access_key=" + APIKey);
             var FixerData = JsonConvert.DeserializeObject<FixerModel>(json);
 
+            if (!FixerData.Success)
+                throw new Exception(FixerData.Error.Info);
+
             cache.Set("FixerData", FixerData, policy);
 
             return FixerData;
 
         }
 
-        public double GetRate(Currency From, Currency To)
+        public decimal GetRate(Currency From, Currency To)
         {
             try
             {
-                FixerData.Rates.TryGetValue(From.InternationalCode, out double fromCurrency);
-                FixerData.Rates.TryGetValue(To.InternationalCode, out double toCurrency);
-                FixerData.Rates.TryGetValue(FixerData.BaseCurrency, out double baseCurrency);
+                FixerData.Rates.TryGetValue(From.InternationalCode, out decimal fromRate);
+                FixerData.Rates.TryGetValue(To.InternationalCode, out decimal toRate);
+                FixerData.Rates.TryGetValue(FixerData.BaseCurrency, out decimal baseRate);
 
 
 
@@ -62,15 +65,15 @@ namespace CurrencyDotNet.Fixer
                     return 1;
                 else if (To.InternationalCode == FixerData.BaseCurrency)
                 {
-                    return toCurrency;
+                    return 1/fromRate;
                 }
                 else if (From.InternationalCode == FixerData.BaseCurrency)
                 {
-                    return 1/toCurrency;
+                    return 1/toRate;
                 }
                 else
                 {
-                    return toCurrency / fromCurrency;
+                    return toRate / fromRate;
                 }
 
             }
@@ -80,7 +83,7 @@ namespace CurrencyDotNet.Fixer
             }
         }
 
-        public double Convert(Currency From, double FromAmount, Currency To)
+        public decimal Convert(Currency From, decimal FromAmount, Currency To)
         {
             var rate = GetRate(From, To);
             if (roundStep > 0)
@@ -89,7 +92,7 @@ namespace CurrencyDotNet.Fixer
                 return rate * FromAmount;
         }
 
-        private double Round(double d)
+        private decimal Round(decimal d)
         {
             var modRemainder = d % roundStep;
             var baseValue = d - modRemainder;

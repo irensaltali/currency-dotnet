@@ -1,15 +1,18 @@
-using CurrencyDotNet.Models;
+﻿using CurrencyDotNet.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using Xunit;
 
 namespace CurrencyDotNet.Test
 {
-    public class CBRTTest
+    public class FixerTest
     {
         protected CurrencyConverter converter;
         protected decimal roundStep = 0.05M;
-        public CBRTTest()
+        public FixerTest()
         {
-            converter = new CurrencyConverter(DataSource.CBRT, roundStep);
+            converter = new CurrencyConverter(DataSource.Fixer, roundStep, "5d531399ba0f1e26382d668f00e91ea0");
         }
 
         [Fact]
@@ -22,7 +25,6 @@ namespace CurrencyDotNet.Test
             Assert.True(response1 > 0);
             Assert.True(response2 % roundStep == 0);
             Assert.True(response2 > 0);
-
         }
 
         [Fact]
@@ -50,6 +52,5 @@ namespace CurrencyDotNet.Test
                 }
             }
         }
-
     }
 }

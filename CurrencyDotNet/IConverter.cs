@@ -4,7 +4,7 @@ namespace CurrencyDotNet
 {
     public interface IConverter
     {
-        double GetRate(Currency From, Currency To);
-        double Convert(Currency From, double FromAmount, Currency To);
+        decimal GetRate(Currency From, Currency To);
+        decimal Convert(Currency From, decimal FromAmount, Currency To);
     }
 }

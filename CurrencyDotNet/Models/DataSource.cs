@@ -12,7 +12,7 @@ namespace CurrencyDotNet.Models
 
         private static readonly Dictionary<string, string> DataSourceAddresses = new Dictionary<string, string>
             {
-                {"CBRT","http://www.CBRT.gov.tr/kurlar/today.xml"},
+                {"CBRT","http://www.TCMB.gov.tr/kurlar/today.xml"},
                 //{"ECB","https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"}
                 {"Fixer","http://data.fixer.io/api/"}
             };

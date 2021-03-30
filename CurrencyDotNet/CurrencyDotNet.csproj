@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <SignAssembly>false</SignAssembly>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <Authors>İren Saltalı</Authors>
     <Company>irensaltali.com</Company>
     <PackageLicenseUrl></PackageLicenseUrl>
@@ -16,8 +16,8 @@
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageId>Irensaltali.Currency</PackageId>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
     <PackageIcon>logo.jpg</PackageIcon>
   </PropertyGroup>
 

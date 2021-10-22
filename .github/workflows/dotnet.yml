@@ -17,12 +17,5 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --configuration Release --no-restore
-      - name: Sonarqube Install
-        run: dotnet tool install --global dotnet-sonarscanner
-      - name: Sonarqube Analyze
-        run: |
-          dotnet sonarscanner begin /k:"CurrenctDotNET" /d:sonar.host.url="http://51.91.145.77:32655"  /d:sonar.login="f00c13fd13e2ce567dcff88c7048eff4bd775ba2"
-          dotnet build
-          dotnet sonarscanner end /d:sonar.login="f00c13fd13e2ce567dcff88c7048eff4bd775ba2"
       - name: Test
         run: dotnet test --no-restore --verbosity normal

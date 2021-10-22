@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --configuration Release --no-
+        run: dotnet build --configuration Release --no-restore
       - name: Sonarqube Install
         run: dotnet tool install --global dotnet-sonarscanner
       - name: Sonarqube Analyze
